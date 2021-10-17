@@ -1,0 +1,165 @@
+<div class="modal-body">
+  <legend>
+    Videos and subtitles for "{{video.name || video.title}}"
+  </legend>
+
+  <ul class="nav nav-tabs">
+    <li ng-class="{'active': activeTab == 'upload'}" ng-click="activeTab = 'upload'"><a>Upload</a></li>
+    <li ng-class="{'active': activeTab == 'url'}" ng-click="activeTab = 'url'"><a>External URL</a></li>
+    <li ng-class="{'active': activeTab == 'local'}" ng-click="activeTab = 'local'"><a>Local File</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane" ng-class="{'active': activeTab == 'upload'}">
+      <button ng-model="file"  class="btn btn-dropzone btn-block btn-lg"
+              ngf-drop ngf-drag-over-class="dragover-upload" ngf-change="upload($files)" ngf-select>
+
+        <span ng-show="uploadStatus.percentage == null">Drop File or Click to Choose</span>
+
+        <span ng-show="uploadStatus.percentage != null && uploadStatus.percentage < 100">Uploading {{uploadStatus.percentage}}%</span>
+
+        <span ng-show="uploadStatus.percentage == 100">
+          <i class="ion-load-c spin icon-xl"></i>
+          <br>
+          Processing...
+        </span>
+      </button>
+
+    </div>
+    <div class="tab-pane" ng-class="{'active': activeTab == 'url'}">
+      <div>
+        <div class="form-group">
+          <input type="url" ng-model="video.externalLink" class="form-control input-sm" placeholder="External URL">
+        </div>
+      </div>
+
+      <button class="btn btn-success btn-sm" ng-click="addExternalUrl(video.externalLink)" ng-disabled="!video.externalLink">Add External URL</button>
+
+
+    </div>
+    <div class="tab-pane" ng-class="{'active': activeTab == 'local'}">
+
+      <p ng-if="!$root.getSetting('Local Video Files').value" class="alert alert-warning" role="alert">You dont have a local Directory set up. As an admin, go to the settings page to configure it now.</p>
+
+      <div ng-if="$root.getSetting('Local Video Files').value">
+        <div>
+          <div class="form-group">
+            <input type="text" ng-model="localFileSearch" class="form-control input-sm" placeholder="Search current directory...">
+          </div>
+        </div>
+
+        <div style="overflow-y: auto; max-height: 200px;">
+        <span class="btn btn-default btn-sm" ng-click="backLocalDirectory()" ng-if="localDir.length > 0">
+          <span class="ion-android-arrow-back"></span>
+        </span>
+          <span>{{ localDir.join('/') }}</span>
+
+          <table class="table table-striped">
+            <tr ng-repeat="file in localFiles | orderBy: ['-directory', 'name'] | filter:localFileSearch">
+              <td>
+            <span ng-if="file.directory" ng-click="openLocalDirectory(file)">
+              <span class="ion-folder"></span>
+              {{ file.name }}
+            </span>
+
+                <span ng-if="!file.directory">
+              <span class="ion-document"></span>
+              {{ file.name }}
+            </span>
+              </td>
+
+              <td>
+              <span class="btn btn-success btn-xs" ng-click="addLocalFile(file.path)" ng-if="!file.directory">
+                Choose
+              </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="closeOnSelect" ng-click="toggleCloseOnSelect()"> Close Modal on Select
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    <h4>Video Files</h4>
+    <table class="table table-striped" style="font-size: 14px;" ng-show="video.videoFiles.length">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name </th>
+        <th>Type</th>
+        <th style="width: 86px;">is Default</th>
+        <th>Label</th>
+        <th style="width: 68px;"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="file in video.videoFiles">
+        <td>{{file.id}}</td>
+        <td>{{file.originalFilename}}</td>
+        <td>{{file.contentType}}</td>
+        <td class="text-center">
+          <i ng-if="!isEditing(file)" ng-class="{'ion-checkmark-round text-success': file.isDefault, 'ion-close-round text-danger': !file.isDefault}"></i>
+          <input ng-if="isEditing(file)" type="checkbox" ng-model="file.isDefault" />
+        </td>
+        <td>
+          <span ng-if="!isEditing(file)">{{file.label}}</span>
+          <input ng-if="isEditing(file)" class="form-control input-xs" value="{{file.label}}" placeholder="Language/Quality" ng-model="file.label"/>
+        </td>
+        <td style="padding: 6px;">
+          <a ng-if="!isEditing(file)" target="_blank" href="{{file.src}}" class="btn btn-xs btn-primary"><i class="ion-eye"></i></a>
+          <button ng-if="!isEditing(file)" class="btn btn-xs" ng-click="toggleEdit(file)" ><i class="ion-edit"></i></button>
+          <button ng-if="isEditing(file)" title="Delete file" class="btn btn-xs btn-danger" ng-click="removeFile(file)"><i class="ion-trash-a"></i></button>
+          <button ng-if="isEditing(file)" title="" class="btn btn-xs btn-success" ng-click="saveChanges(file)" ><i class="ion-checkmark"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div ng-show="video.subtitles.length">
+      <br/>
+      <h4>Subtitles</h4>
+
+      <table class="table table-striped" style="font-size: 14px;">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Label</th>
+          <th>Language</th>
+          <th style="width: 68px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="file in video.subtitles">
+          <td>{{file.id}}</td>
+          <td>{{file.originalFilename}}</td>
+          <td>{{file.contentType}}</td>
+          <th>
+            <input class="form-control input-xs" value="{{file.subtitleLabel}}" placeholder="Country" ng-change="subtitleLabel" ng-model="file.subtitleLabel"></input>
+          </th>
+          <th>
+            <input class="form-control input-xs" value="{{file.subtitleSrcLang}}" placeholder="ISO-3166 Country Code" ng-change="subtitleSrcLang" ng-model="file.subtitleSrcLang"></input>
+          </th>
+          <td style="padding: 6px;">
+            <button title="Delete file" class="btn btn-xs btn-danger" ng-click="removeFile(file)"><i class="ion-trash-a"></i></button>
+            <button title="" class="btn btn-xs btn-primary" ng-click="saveChanges(file)" ><i class="ion-checkmark"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="cancel()">Close</button>
+</div>
+

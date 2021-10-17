@@ -1,0 +1,12 @@
+import streama.UserActivity
+
+model {
+	Iterable<UserActivity> userActivityList
+  Integer userActivityCount
+}
+
+json {
+  list tmpl.userActivity(userActivityList ?: [])
+  total userActivityCount
+}
+

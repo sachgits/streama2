@@ -1,0 +1,44 @@
+{
+  "name": "Streama",
+  "version": "0.1.4",
+  "authors": [
+    "dularion <dularion@gmail.com>"
+  ],
+  "description": "It's like Netflix, but self-hosted!",
+  "license": "MIT",
+  "homepage": "http://dularion.github.io/streama/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "grails-app/assets/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "alertify": "~0.3.10",
+    "angular-ui-router": "~0.*",
+    "angular-local-storage": "~0.2.2",
+    "bootstrap": "~3.3.5",
+    "angular-ui-slider": "~0.1.3",
+    "ionicons": "~2.0.1",
+    "angular": "~1.7.*",
+    "angular-sanitize": "~1.7.*",
+    "ng-file-upload": "~5.0.9",
+    "mousetrap": "~1.5.3",
+    "jquery-mousewheel": "^3.1.13",
+    "angular-bootstrap": "^2.4.0",
+    "Autolinker.js": "^0.26.0",
+    "ui-select": "angular-ui-select#^0.16.1",
+    "lodash": "^4.11.2",
+    "jquery": "2.x.x",
+    "owl.carousel": "OwlCarousel2#^2.1.1",
+    "angular-translate": "^2.18.*"
+  },
+  "install": {
+    "path": "grails-app/assets/bower"
+  },
+  "resolutions": {
+    "lodash": "^4.11.2"
+  }
+}

@@ -1,0 +1,29 @@
+<div class="togethere-background"></div>
+    <div class="sr-root">
+      <div class="sr-main">
+        <header class="sr-header">
+          <div class="sr-header__logo"></div>
+        </header>
+        <h1>Choose A plan</h1>
+
+        <div class="price-table-container" ng-repeat="subscribe in subscription">
+          <section>
+            <img
+              src="/assets/starter.png"
+              width="120"
+              height="120"
+            />
+            <div class="name">{{subscribe.planName}}</div>
+            <div class="price">KES{{subscribe.amount}}</div>
+            <div class="duration">{{subscribe.duration}}</div>
+            <button id="basic-plan-btn" ng-click="createUserSubscription(subscribe.planName)">Select</button>
+          </section>
+        </div>
+        <div class="spinner" ng-show="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+        <div id="error-message"></div>
+      </div>
+    </div>

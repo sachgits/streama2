@@ -1,0 +1,207 @@
+.admin{
+  @include flexbox;
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+
+
+  > .nav{
+    width: 300px;
+    background: rgba(0, 0, 0, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.11);
+    @include flex(none);
+
+    ul{
+      padding: 0;
+
+      li{
+        list-style: none;
+        font-size: 18px;
+        font-weight: 300;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+
+        a{
+          color: white;
+          display: block;
+          padding: 8px 15px;
+          text-decoration: none;
+        }
+
+        &:hover a,
+        &.active a{
+          background: $secondary;
+          color: white;
+        }
+
+        ul li{
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  .form-control{
+    color: white;
+    option{
+        color:black;
+    }
+  }
+
+  @include placeholder{
+    color: #888;
+    font-weight: 300;
+  }
+
+  .admin-content{
+    padding: 15px;
+    @include flex(1);
+    overflow-y: scroll;
+
+    h1{
+      margin-top: 0;
+    }
+  }
+
+  admin-episode{
+    &.highlight .media-list-item{
+      box-shadow: 0 0 3px 1px $secondary;
+    }
+  }
+
+  .media-list-item{
+    transition: box-shadow 0.5s;
+    margin-top: 15px;
+  }
+}
+
+.admin-well{
+  padding: 18px;
+  margin: 20px 0;
+  border-radius: 3px;
+
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.admin-movie-item{
+  min-height: 260px;
+}
+
+.season-picker-list{
+  margin-bottom: 14px;
+
+  .season-picker-item{
+    padding: 3px 10px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+
+    &.active{
+      border: 1px solid white;
+    }
+
+  }
+}
+
+
+.create-from-file-tree{
+  background: #3d3d3d;
+  padding: 14px;
+
+  .checkbox-wrapper{
+    float: left;
+    padding: 0 0 0 16px;
+  }
+
+  li{
+    list-style: none;
+    padding: 7px 0;
+    border-top: 1px solid #555a5c;
+  }
+
+  .column-loading{
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+  }
+}
+
+.upload-poster{
+  padding: 20px;
+  border: 2px dashed gray;
+  border-radius: 20px;
+  height: 300px;
+  max-width: 250px;
+  text-align: center;
+
+  .main-text{
+    display: block;
+    font-size: 30px;
+    margin-top: 85px;
+  }
+
+  .size-info{
+    display: block;
+  }
+
+  &.dragover{
+    border: 2px dashed white;
+    background: #2898c5;
+  }
+
+  &.update-poster{
+    height: auto;
+    margin-top: 15px;
+    max-width: inherit;
+
+    .main-text{
+      margin-top: 0px;
+    }
+  }
+}
+
+hr{
+  display: block;
+  clear: both;
+}
+
+
+.ui-select-bootstrap .ui-select-choices-row>a{
+  color: white;
+}
+
+.ui-select-multiple input.ui-select-search {
+  width: inherit !important;
+  color: white;
+}
+
+.tag-select{
+  .tag-wrapper{
+    @include flexbox;
+    .tag-name{
+      @include flex(1);
+    }
+    i{
+      @include flex(none);
+    }
+  }
+}
+
+.file-grid{
+  @include clearfix;
+
+  .file-grid-item{
+    float: left;
+    background-color: rgba(255, 255, 255, 0.12);
+    width: 200px;
+    height: 200px;
+    margin: 0 10px 10px 0;
+  }
+}
+
+.file-manager-table{
+  word-break: break-word;
+  font-size: 12px;
+}

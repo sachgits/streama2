@@ -1,0 +1,129 @@
+.topcontainer {
+  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;;
+  background-color: #25292B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 0 0;
+}
+
+.info {
+  text-align: center;
+  max-width: 600px;
+  margin-bottom: 50px;
+
+  &__title {
+    font-size: 55px;
+  }
+
+  &__description {
+    font-size: 22px;
+  }
+}
+
+.containersubscribe {
+  display: grid;
+  max-width: 1000px;
+  align-items: center;
+
+  @media (min-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.box {
+  min-height: 500px;
+  border: 1px solid hsla(0, 0%, 0%, 0.247);
+  border-radius: 20px;
+  background-color: hsla(212, 68%, 36%, 0.541);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 15%;
+  margin: 10px 10px;
+  position: relative;
+  box-shadow: -5px 5px 15px black;
+
+  &::before {
+    content: "";
+    width: 95%;
+    height: 97%;
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+
+  &:nth-child(3) {
+    box-shadow: 5px 5px 15px black;
+  }
+
+  &__title,
+  &__price {
+    font-size: 45px;
+    font-weight: bold;
+  }
+
+  &__description {
+    font-size: 14px;
+  }
+
+  &__button {
+    background-color: rgb(67, 158, 193);
+    padding: 8px 25px;
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+  }
+
+  &--featured {
+    background-color: hsla(36, 83%, 44%, 0.603);
+    min-height: 550px;
+    box-shadow: -10px 0 28px black, 10px 0 28px black;
+
+    &::after {
+      top: 1.5%;
+      width: 50%;
+      min-width: 45px;
+      height: 20px;
+      content: "most popular";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      color: rgb(67, 158, 193);
+      background-color: black;
+      position: absolute;
+      border-radius: 5px;
+    }
+
+    .box__title,
+    .box__price {
+      font-size: 60px;
+      font-weight: bold;
+    }
+
+    .box__title {
+      margin: 0 0 20px;
+    }
+
+    .box__price {
+      margin: 30px 0;
+    }
+
+    .box__description {
+      font-size: 16px;
+    }
+
+    .box__button {
+      background-color: black;
+      color: rgb(67, 158, 193);
+      font-size: 20px;
+      padding: 12px 28px;
+      box-shadow: 2px 2px 20px black;
+    }
+  }
+}

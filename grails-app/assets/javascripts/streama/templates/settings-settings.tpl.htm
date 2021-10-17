@@ -1,0 +1,90 @@
+<button class="btn btn-primary pull-right" ng-click="updateMultipleSettings(settings)" ng-disabled="anySettingsInvalid()">Save Settings</button>
+
+<button class="btn btn-info pull-right" style="margin-left: 4px;" ng-click="syncImages()"><i class="ion-arrow-return-right"></i> Fix & Sync Images</button>
+
+<h1>
+  Settings
+
+  <div class="spinner" ng-show="loading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</h1>
+
+
+<div class="spinner big big-loading" ng-show="bigLoading">
+  <i class="ion-load-c spin"></i>
+</div>
+
+<hr/>
+
+<form name="settings-form" class="settings-form">
+  <div class="form-group row-slim" ng-repeat="setting in settings">
+    <div class="col-sm-3">
+      <label class="control-label">{{setting.settingsKey}} <span ng-if="setting.required" style="color:red">*</span></label>
+    </div>
+    <div ng-switch="setting.settingsType">
+      <div ng-switch-when="string">
+        <div class="col-sm-7" ng-class="{'has-error has-feedback': setting.invalid, 'has-success has-feedback': setting.valid}">
+          <input ng-required="setting.required" type="text" class="form-control" ng-model="setting.value" placeholder="{{setting.settingsKey}}" ng-change="changeValue(setting)"
+        				ng-blur="(!setting.valid && setting.dirty && setting.validationRequired!==false)?validateSettings(setting):fasle">
+
+          <span class="glyphicon ion-close form-control-feedback" ng-show="setting.invalid" aria-hidden="true"></span>
+          <span class="glyphicon ion-checkmark form-control-feedback" ng-show="setting.valid" aria-hidden="true"></span>
+
+        </div>
+        <div class="col-sm-2">
+          <div type="button" class="btn btn-success btn-block" ng-click="validateSettings(setting)" ng-show="!setting.valid && setting.dirty && setting.validationRequired !== false">validate</div>
+        </div>
+      </div>
+      <div ng-switch-when="boolean" class="col-sm-2">
+        <input type="checkbox" ng-model="setting.value" ng-init="setting.value = (setting.value == 'true')" />
+      </div>
+      <div ng-switch-when="integer" class="col-sm-2">
+        <input type="text" class="form-control" ng-model="setting.value" />
+      </div>
+      <div ng-switch-when="wysiwyg" class="col-md-6">
+        <streama-wysiwyg ng-model="setting.value"></streama-wysiwyg>
+      </div>
+      <div ng-switch-when="fileUpload" class="col-sm-7">
+       <div class="row">
+         <div class="col-md-6">
+           <div ng-model="file"  class="btn btn-dark" ngf-drop
+                   ngf-drag-over-class="dragover-upload" ngf-change="upload(setting, $files)" ngf-select>
+             Drop or Select Logo <span ng-show="uploadStatus.percentage">{{uploadStatus.percentage}}%</span>
+           </div>
+         </div>
+         <div class="col-md-6">
+          <div>
+            <img class="pull-right" ng-show="getAssetFromSetting(setting)" ng-src="{{setting.src}}" alt="Streama Logo">
+          </div>
+          <div>
+            <input ng-required="setting.required" ng-init="setting.required=true" class="form-control input-sm" type="text"  ng-model="setting.value" />
+          </div>
+           <div>
+             <div class="btn btn-sm btn-dark" ng-click="setting.value = setting.defaultValue">
+               Reset to default
+             </div>
+           </div>
+         </div>
+       </div>
+      </div>
+
+    </div>
+    <div class="col-sm-7 col-sm-offset-3">
+      <a ng-if="setting.settingsKey=='Base URL'" ng-click="resetBaseURL(setting)"> Reset to default value.</a>
+      <p class="settings-description" ng-bind-html="setting.description"></p>
+    </div>
+
+    <hr class="col-xs-12">
+
+  </div>
+</form>
+<p style="color:red">* required field</p>
+
+<hr/>
+
+<button class="btn btn-primary pull-right" ng-click="updateMultipleSettings(settings)" ng-disabled="anySettingsInvalid()">Save Settings</button>
+
+

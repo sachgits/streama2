@@ -1,0 +1,28 @@
+<div class="currentplan">
+        Your current plan:<br>
+    </div>
+
+
+    <div class="heading">
+        <h3>Choose your plan:</h3>
+    </div>
+
+
+    <div class="Plans" ng-repeat="subscribe in subscription" >
+        <div class="Price">
+            <h3>{{subscribe.planName}}</h3>
+            <p>KES {{subscribe.amount}}</p>
+            <p>{{subscribe.duration}}</p>
+            <ul class="features">
+                <li>HD movies</li>
+                <li>Unlimited Watching</li>
+                <li>flawless Streaming</li>
+                <li>Whatsapp support</li>
+                <li>Dedicated Servers</li>
+            </ul>
+            <div class="button">
+                <button ng-click="createUserSubscription(subscribe.planName)" >Choose Plan</button>
+            </div>
+            
+        </div>
+    </div>

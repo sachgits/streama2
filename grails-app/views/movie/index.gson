@@ -1,0 +1,11 @@
+import streama.Movie
+
+model {
+  Iterable<Movie> list
+  Long total
+}
+
+json {
+  total total
+  list tmpl.movie(list ?: [])
+}

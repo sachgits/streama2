@@ -1,0 +1,116 @@
+<form class="form-horizontal">
+
+  <div class="modal-body">
+    <legend>
+      Episode &nbsp;<span ng-if="episode.id" class="text-muted text-sm">(id: {{episode.id}})</span>
+    </legend>
+
+    <div class="form-group">
+      <div class="col-sm-12 typeahead-wrapper" ng-if="!addManually">
+        <input type="text" class="form-control name-input" ng-model="episode.name" placeholder="Episode Name" typeahead-loading="loading"
+               typeahead="episode.episodename for episode in search($viewValue)" typeahead-on-select="selectEpisode($item)"
+               typeahead-template-url="typeahead--episode.htm">
+        <div class="spinner" ng-show="loading">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+      </div>
+      <div class="col-sm-12" ng-if="addManually">
+        <input type="text" class="form-control" ng-model="episode.name" placeholder="Episode Name*">
+      </div>
+    </div>
+
+    <div ng-show="episode.episode_number || addManually">
+      <div class="form-group row-slim">
+        <div class="col-sm-2">
+          <label>Episode Number*</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.episode_number" placeholder="#"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Season Number*</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.season_number" placeholder="#"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Episode String</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.episodeString" placeholder="s##e##"/>
+        </div>
+        <div class="col-sm-2">
+          <label>First Aired</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.air_date" placeholder="yyyy-mm-dd"/>
+        </div>
+        <div class="col-sm-2">
+          <label>TheMovieDB ID</label>
+          <input type="text" class="form-control input-sm" ng-disabled="addManually" ng-model="episode.apiId" placeholder="TheMovieDB ID"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Rating</label>
+          <input type="text" class="form-control input-sm" ng-disabled="addManually" ng-model="episode.vote_average" placeholder="Rating"/>
+        </div>
+      </div>
+
+      <div class="form-group row-slim">
+        <div class="col-sm-2">
+          <label>Intro Start</label>
+          <input type="text" class="form-control input-sm" video-time-format ng-model="episode.intro_start"
+                 placeholder="0:0"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Intro End</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.intro_end" video-time-format
+                 placeholder="0:0"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Outro Start</label>
+          <input type="text" class="form-control input-sm" ng-model="episode.outro_start" video-time-format
+                 placeholder="00:00:00" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <label>Overview</label>
+          <textarea class="form-control" cols="30" rows="4" ng-model="episode.overview" placeholder="Overview"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="episode.still_path && episode.id">
+        <div class="col-sm-6">
+          <label>Image</label>
+          <br/>
+          <img ng-if="episode.still_path" ng-src="https://image.tmdb.org/t/p/w500/{{episode.still_path}}"/>
+        </div>
+      </div>
+
+      <div class="form-group" ng-if="!episode.still_path && episode.id">
+        <div class="col-sm-12">
+          <label>Episode Image</label>
+          <br/>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="upload-poster" ng-class="{'update-poster': episode.still_image_src}" ng-model="manualImage" class="btn btn-primary btn-block btn-lg"
+                   ngf-change="uploadImage($files, 'still_image')" ngf-select ngf-drop ngf-drag-over-class="dragover">
+                <span class="main-text">Upload Episode Image</span>
+                <span class="size-info">(recommended: 1000x563 px)</span>
+                <span ng-show="imageUpload.percentage">{{imageUpload.percentage}}%</span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <img ng-show="episode.still_image || episode.still_image_src" ng-src="{{episode.still_image.src || movie.still_image_src}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <div class="btn-group pull-left" ng-if="episode.id">
+
+      <button class="btn btn-danger btn-sm" ng-if="episode.id" ng-click="deleteVideo(episode)">Delete Episode</button>
+      <button class="btn btn-sm" ng-click="refetch(episode)">Re-Fetch Episode</button>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-success" ng-disabled="!episode.episode_number" ng-click="saveEpisode(episode)">Save</button>
+    </div>
+  </div>
+</form>

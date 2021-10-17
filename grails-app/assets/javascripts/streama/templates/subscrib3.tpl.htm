@@ -1,0 +1,21 @@
+<div class="topcontainer" >
+    <div class="info">
+      <h1 class="info__title">PayBill 234480 account No. 072xxxxxxx</h1>
+      <p class="info__description">
+       Watch all your favorite movies,tv shows/series and music straight to your mobile phone
+       or smart tv. No bundles required just connect to wiflix hot spot and start streaming.
+      </p>
+    </div>
+    <div class="containersubscribe" ng-repeat="subscribe in subscription">
+      <div class="box">
+        <h2 class="box__title">{{subscribe.planName}}</h2>
+        <p class="box__description">
+          Pay KES {{subscribe.amount}} using your Mpesa to paybill 234480, your mobile as the account No.
+        </p>
+        <p class="box__price">KES {{subscribe.amount}}</p>
+        <button  ng-click="createUserSubscription(subscribe.planName)" >choose</button>
+      </div>
+      <!--<div class="box box--featured" > latter-->
+    </div>
+  
+</div>
